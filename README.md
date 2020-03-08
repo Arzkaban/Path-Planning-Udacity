@@ -1,6 +1,10 @@
 # CarND-Path-Planning-Project
 Self-Driving Car Engineer Nanodegree Program
-   
+
+**Here is the picture from successful implemented Path Planning, the detail about how to implement can be find in the end of this README file.**
+
+![image-20200308122154454](/Users/tianjili/Library/Application Support/typora-user-images/image-20200308122154454.png)
+
 ### Simulator.
 You can download the Term3 Simulator which contains the Path Planning Project from the [releases tab (https://github.com/udacity/self-driving-car-sim/releases/tag/T3_v1.2).  
 
@@ -74,6 +78,7 @@ A really helpful resource for doing this project and creating smooth trajectorie
 ## Dependencies
 
 * cmake >= 3.5
+  
   * All OSes: [click here for installation instructions](https://cmake.org/install/)
 * make >= 4.1
   * Linux: make is installed by default on most Linux distros
@@ -140,6 +145,35 @@ that's just a guess.
 One last note here: regardless of the IDE used, every submitted project must
 still be compilable with cmake and make./
 
-## How to write a README
-A well written README file can enhance your project and portfolio.  Develop your abilities to create professional README files by completing [this free course](https://www.udacity.com/course/writing-readmes--ud777).
+## Reflection
+
+Based on the provided code from the seed project, the path planning algorithms start at [src/main.cpp](https://github.com/Arzkaban/Path-Planning-Udacity/blob/b8344052226db05c331c07605400153fe4965241/src/main.cpp#L113) line **113** to the line **31920. 
+
+The code consist of three parts:
+
+### 1.  [Prediction](https://github.com/Arzkaban/Path-Planning-Udacity/blob/b8344052226db05c331c07605400153fe4965241/src/main.cpp#L124)
+
+This part make use of sensor fusion objects and ego vehicle status to decide:
+
+- Is any Object in front of ego vehicle
+- Does it safe to changing lane
+
+Safe distance is set at 30 meter. That means if there are object in front of ego vehicle within 30 meter, and on left/right lane there are free space between -30meter and 30 meter in s direction, it will be treated as safe to merge lane.
+
+### 2.  [Behavior Planning](https://github.com/Arzkaban/Path-Planning-Udacity/blob/b8344052226db05c331c07605400153fe4965241/src/main.cpp#L173)
+
+This part decides the future behavior of ego vehicle according to Prediction results:
+
+- If there is Object within safe distance in front of ego vehicle, is it safe to change lane and change to which lane?
+- If there is free space in front of us , but ego vehicle are not in the center lane, do we need to change back to center?
+
+Base on Behavior Planning, the decision about changing lane and decrease speed is made.
+
+### 3.  [Trajectory Generation](https://github.com/Arzkaban/Path-Planning-Udacity/blob/b8344052226db05c331c07605400153fe4965241/src/main.cpp#L212)
+
+This code does the calculation of the trajectory based on the speed and lane output from the behavior, car coordinates and past path points.
+
+First, the last two points of the previous trajectory (or the car position if there are no previous trajectory)(lines 212-249) are used in conjunction three points at a far distance (lines 249-252). To make the work less complicated to the spline calculation based on those points, the coordinates are transformed (shift and rotation) to local car coordinates (lines 262-270).
+
+In order to ensure more continuity on the trajectory (in addition to adding the last two point of the pass trajectory to the spline adjustment), the pass trajectory points are copied to the new trajectory (lines 276-281).The speed change is decided on the behavior part of the code, but it is used in that part to increase/decrease speed on every trajectory points instead of doing it for the complete trajectory.
 
