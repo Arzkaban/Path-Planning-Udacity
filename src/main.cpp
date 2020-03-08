@@ -209,6 +209,7 @@ int main() {
 //              }
           }
 
+          // 3. trajectory generation
           vector<double> ptsx;
           vector<double> ptsy;
 
