@@ -3,7 +3,7 @@ Self-Driving Car Engineer Nanodegree Program
 
 **Here is the picture from successful implemented Path Planning, the detail about how to implement can be find in the end of this README file.**
 
-![https://github.com/Arzkaban/Path-Planning-Udacity/blob/master/2020-03-08PM12.16.49.png)
+![](https://github.com/Arzkaban/Path-Planning-Udacity/blob/master/2020-03-08PM12.16.49.png?raw=true)
 
 ### Simulator.
 You can download the Term3 Simulator which contains the Path Planning Project from the [releases tab (https://github.com/udacity/self-driving-car-sim/releases/tag/T3_v1.2).  
